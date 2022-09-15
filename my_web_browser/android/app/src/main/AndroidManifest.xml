@@ -5,6 +5,7 @@
 
    <application
         android:label="my_web_browser"
+       android:usesCleartextTraffic="true"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
