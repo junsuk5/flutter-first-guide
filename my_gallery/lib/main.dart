@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
@@ -34,6 +35,9 @@ class _MyGalleryAppState extends State<MyGalleryApp> {
   final ImagePicker _picker = ImagePicker();
   List<XFile>? images;
 
+  int currentPage = 0;
+  final pageController = PageController();
+
   @override
   void initState() {
     super.initState();
@@ -44,12 +48,27 @@ class _MyGalleryAppState extends State<MyGalleryApp> {
   Future loadImages() async {
     images = await _picker.pickMultiImage();
 
+    if (images != null) {
+      Timer.periodic(const Duration(seconds: 5), (timer) {
+        currentPage++;
+
+        if (currentPage > images!.length - 1) {
+          currentPage = 0;
+        }
+
+        pageController.animateToPage(
+          currentPage,
+          duration: const Duration(milliseconds: 350),
+          curve: Curves.easeIn,
+        );
+      });
+    }
+
     setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
-    final pageController = PageController();
     return Scaffold(
       appBar: AppBar(
         title: const Text('전자액자'),
