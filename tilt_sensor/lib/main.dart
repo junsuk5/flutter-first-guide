@@ -36,7 +36,7 @@ class SensorApp extends StatefulWidget {
 }
 
 class _SensorAppState extends State<SensorApp> {
-  List<double> _accelerometerValues = [];
+  List<double> _accelerometerValues = [0, 0, 0];
   StreamSubscription? _subscription;
 
   @override
@@ -79,6 +79,5 @@ class _SensorAppState extends State<SensorApp> {
         ],
       ),
     );
-    ;
   }
 }
