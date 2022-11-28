@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:sensors_plus/sensors_plus.dart';
@@ -28,33 +26,8 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class SensorApp extends StatefulWidget {
-  const SensorApp({Key? key}) : super(key: key);
-
-  @override
-  State<SensorApp> createState() => _SensorAppState();
-}
-
-class _SensorAppState extends State<SensorApp> {
-  List<double> _accelerometerValues = [];
-  StreamSubscription? _subscription;
-
-  @override
-  void initState() {
-    super.initState();
-
-    _subscription = accelerometerEvents.listen((event) {
-      setState(() {
-        _accelerometerValues = [event.x, event.y, event.z];
-      });
-    });
-  }
-
-  @override
-  void dispose() {
-    _subscription?.cancel();
-    super.dispose();
-  }
+class SensorApp extends StatelessWidget {
+  const SensorApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -64,21 +37,32 @@ class _SensorAppState extends State<SensorApp> {
     return Scaffold(
       body: Stack(
         children: [
-          Positioned(
-            left: centerX + _accelerometerValues[1] * 20,
-            top: centerY + _accelerometerValues[0] * 20,
-            child: Container(
-              decoration: const BoxDecoration(
-                color: Colors.green,
-                shape: BoxShape.circle,
-              ),
-              width: 100,
-              height: 100,
-            ),
-          ),
+          StreamBuilder<AccelerometerEvent>(
+              stream: accelerometerEvents,
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+
+                final event = snapshot.data!;
+                List<double> accelerometerValues = [event.x, event.y, event.z];
+                return Positioned(
+                  left: centerX + accelerometerValues[1] * 20,
+                  top: centerY + accelerometerValues[0] * 20,
+                  child: Container(
+                    decoration: const BoxDecoration(
+                      color: Colors.green,
+                      shape: BoxShape.circle,
+                    ),
+                    width: 100,
+                    height: 100,
+                  ),
+                );
+              }),
         ],
       ),
     );
-    ;
   }
 }
