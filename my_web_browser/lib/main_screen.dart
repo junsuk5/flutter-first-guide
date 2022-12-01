@@ -51,12 +51,21 @@ class _MainScreenState extends State<MainScreen> {
           ),
         ],
       ),
-      body: WebView(
-        initialUrl: 'https://flutter.dev',
-        javascriptMode: JavascriptMode.unrestricted,
-        onWebViewCreated: (controller) {
-          _webViewController = controller;
+      body: WillPopScope(
+        onWillPop: () async {
+          if (await _webViewController.canGoBack()) {
+            await _webViewController.goBack();
+            return false;
+          }
+          return true;
         },
+        child: WebView(
+          initialUrl: 'https://flutter.dev',
+          javascriptMode: JavascriptMode.unrestricted,
+          onWebViewCreated: (controller) {
+            _webViewController = controller;
+          },
+        ),
       ),
     );
   }
