@@ -49,8 +49,8 @@ class SensorApp extends StatelessWidget {
                 final event = snapshot.data!;
                 List<double> accelerometerValues = [event.x, event.y, event.z];
                 return Positioned(
-                  left: centerX + accelerometerValues[1] * 20,
-                  top: centerY + accelerometerValues[0] * 20,
+                  left: centerX + event.y * 20,
+                  top: centerY + event.x * 20,
                   child: Container(
                     decoration: const BoxDecoration(
                       color: Colors.green,
