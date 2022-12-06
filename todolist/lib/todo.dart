@@ -1,9 +1,9 @@
+import 'package:hive_flutter/hive_flutter.dart';
 
-import 'package:hive/hive.dart';
+part 'todo.g.dart';
 
 @HiveType(typeId: 0)
 class Todo extends HiveObject {
-
   @HiveField(0)
   int? id;
 
@@ -13,9 +13,13 @@ class Todo extends HiveObject {
   @HiveField(2)
   int dateTime;
 
+  @HiveField(3)
+  bool isDone;
+
   Todo({
     this.id,
     required this.title,
     required this.dateTime,
+    this.isDone = false,
   });
 }
