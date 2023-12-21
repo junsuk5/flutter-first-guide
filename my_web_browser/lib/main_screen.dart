@@ -11,14 +11,9 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  late WebViewController _webViewController;
-
-  @override
-  void initState() {
-    super.initState();
-    // Enable virtual display.
-    if (Platform.isAndroid) WebView.platform = AndroidWebView();
-  }
+  final WebViewController _webViewController = WebViewController()
+    ..setJavaScriptMode(JavaScriptMode.unrestricted)
+    ..loadRequest(Uri.parse('https://flutter.dev'));
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +27,7 @@ class _MainScreenState extends State<MainScreen> {
           ),
           PopupMenuButton<String>(
             onSelected: (value) {
-              _webViewController.loadUrl(value);
+              _webViewController.loadRequest(Uri.parse(value));
             },
             itemBuilder: (context) => [
               const PopupMenuItem<String>(
@@ -51,21 +46,14 @@ class _MainScreenState extends State<MainScreen> {
           ),
         ],
       ),
-      body: WillPopScope(
-        onWillPop: () async {
+      body: PopScope(
+        canPop: false,
+        onPopInvoked: (didPop) async {
           if (await _webViewController.canGoBack()) {
             await _webViewController.goBack();
-            return false;
           }
-          return true;
         },
-        child: WebView(
-          initialUrl: 'https://flutter.dev',
-          javascriptMode: JavascriptMode.unrestricted,
-          onWebViewCreated: (controller) {
-            _webViewController = controller;
-          },
-        ),
+        child: WebViewWidget(controller: _webViewController),
       ),
     );
   }
