@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:soundpool/soundpool.dart';
+import 'package:just_audio/just_audio.dart';
 
 void main() {
   runApp(const MyApp());
@@ -22,67 +22,47 @@ class MyApp extends StatelessWidget {
 }
 
 class XylophoneApp extends StatefulWidget {
-  const XylophoneApp({Key? key}) : super(key: key);
+  const XylophoneApp({super.key});
 
   @override
   State<XylophoneApp> createState() => _XylophoneAppState();
 }
 
 class _XylophoneAppState extends State<XylophoneApp> {
-  Soundpool pool = Soundpool.fromOptions(options: SoundpoolOptions.kDefault);
-
-  List<int> _soundIds = [];
+  final List<AudioPlayer> _audioPlayers = [];
   bool _isLoading = true;
 
   @override
   void initState() {
     super.initState();
-    initSoundPool();
+    initAudioPlayers();
   }
 
-  Future<void> initSoundPool() async {
-    int soundId = await rootBundle
-        .load('assets/do1.wav')
-        .then((soundData) => pool.load(soundData));
+  @override
+  void dispose() {
+    for (final player in _audioPlayers) {
+      player.dispose();
+    }
+    super.dispose();
+  }
 
-    _soundIds.add(soundId);
+  Future<void> initAudioPlayers() async {
+    final List<String> notes = [
+      'do1.wav',
+      're.wav',
+      'mi.wav',
+      'fa.wav',
+      'sol.wav',
+      'la.wav',
+      'si.wav',
+      'do2.wav'
+    ];
 
-    soundId = await rootBundle
-        .load('assets/re.wav')
-        .then((soundData) => pool.load(soundData));
-
-    _soundIds.add(soundId);
-    soundId = await rootBundle
-        .load('assets/mi.wav')
-        .then((soundData) => pool.load(soundData));
-
-    _soundIds.add(soundId);
-    soundId = await rootBundle
-        .load('assets/fa.wav')
-        .then((soundData) => pool.load(soundData));
-
-    _soundIds.add(soundId);
-    soundId = await rootBundle
-        .load('assets/sol.wav')
-        .then((soundData) => pool.load(soundData));
-
-    _soundIds.add(soundId);
-    soundId = await rootBundle
-        .load('assets/la.wav')
-        .then((soundData) => pool.load(soundData));
-
-    _soundIds.add(soundId);
-    soundId = await rootBundle
-        .load('assets/si.wav')
-        .then((soundData) => pool.load(soundData));
-
-    _soundIds.add(soundId);
-
-    soundId = await rootBundle
-        .load('assets/do2.wav')
-        .then((soundData) => pool.load(soundData));
-
-    _soundIds.add(soundId);
+    for (final note in notes) {
+      final player = AudioPlayer();
+      await player.setAsset('assets/$note');
+      _audioPlayers.add(player);
+    }
 
     setState(() {
       _isLoading = false;
@@ -104,46 +84,47 @@ class _XylophoneAppState extends State<XylophoneApp> {
               children: [
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 16.0),
-                  child: gunban('도', Colors.red, soundId: _soundIds[0]),
+                  child: gunban('도', Colors.red, index: 0),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 24.0),
-                  child: gunban('레', Colors.orange, soundId: _soundIds[1]),
+                  child: gunban('레', Colors.orange, index: 1),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 32.0),
-                  child: gunban('미', Colors.deepOrangeAccent, soundId: _soundIds[2]),
+                  child: gunban('미', Colors.deepOrangeAccent, index: 2),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 40.0),
-                  child: gunban('파', Colors.green, soundId: _soundIds[3]),
+                  child: gunban('파', Colors.green, index: 3),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 48.0),
-                  child: gunban('솔', Colors.cyan, soundId: _soundIds[4]),
+                  child: gunban('솔', Colors.cyan, index: 4),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 56.0),
-                  child: gunban('라', Colors.blue, soundId: _soundIds[5]),
+                  child: gunban('라', Colors.blue, index: 5),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 64.0),
-                  child: gunban('시', Colors.purple, soundId: _soundIds[6]),
+                  child: gunban('시', Colors.purple, index: 6),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 72.0),
-                  child: gunban('도', Colors.red, soundId: _soundIds[7]),
+                  child: gunban('도', Colors.red, index: 7),
                 ),
               ],
             ),
     );
   }
 
-  Widget gunban(String text, Color color, {int? soundId}) {
+  Widget gunban(String text, Color color, {required int index}) {
     return GestureDetector(
       onTap: () {
-        if (soundId != null) {
-          pool.play(soundId);
+        if (index < _audioPlayers.length) {
+          _audioPlayers[index].seek(Duration.zero);
+          _audioPlayers[index].play();
         }
       },
       child: Container(
