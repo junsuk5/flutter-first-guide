@@ -5,7 +5,7 @@ import 'main.dart';
 import 'todo_item.dart';
 
 class ListScreen extends StatefulWidget {
-  const ListScreen({Key? key}) : super(key: key);
+  const ListScreen({super.key});
 
   @override
   State<ListScreen> createState() => _ListScreenState();

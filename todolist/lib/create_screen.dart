@@ -4,7 +4,7 @@ import 'package:todolist/todo.dart';
 import '../main.dart';
 
 class CreateScreen extends StatefulWidget {
-  const CreateScreen({Key? key}) : super(key: key);
+  const CreateScreen({super.key});
 
   @override
   State<CreateScreen> createState() => _CreateScreenState();
