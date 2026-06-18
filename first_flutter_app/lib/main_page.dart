@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 // CamelCase (낙타형)
 // snake_case (뱀형)
 class MainPage extends StatefulWidget {
-  const MainPage({Key? key}) : super(key: key);
+  const MainPage({super.key});
 
   @override
   State<MainPage> createState() => _MainPageState();
@@ -12,7 +12,6 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   // 변수, 인스턴스, 오브젝트(객체), 상수
   int number = 10;
-  String _text = '';
   final _textController = TextEditingController();
 
   @override
@@ -55,7 +54,7 @@ class _MainPageState extends State<MainPage> {
               ),
               ElevatedButton(
                 onPressed: () {
-                  print('ElevatedButton');
+                  debugPrint('ElevatedButton');
                 },
                 child: Text('ElevatedButton'),
               ),
@@ -77,16 +76,14 @@ class _MainPageState extends State<MainPage> {
                         labelText: '글자',
                         border: OutlineInputBorder(),
                       ),
-                      onChanged: (text) {
-                        _text = text;
-                      },
+                      onChanged: (text) {},
                     ),
                   ),
                   Expanded(
                     flex: 2,
                     child: ElevatedButton(
                       onPressed: () {
-                        print(_textController.text);
+                        debugPrint(_textController.text);
 
                         // 화면 갱신
                         setState(() {});

@@ -5,10 +5,10 @@ class ResultScreen extends StatelessWidget {
   final double weight;
 
   const ResultScreen({
-    Key? key,
+    super.key,
     required this.height,
     required this.weight,
-  }) : super(key: key);
+  });
 
   String _calcBmi(double bmi) {
     String result = '저체중';

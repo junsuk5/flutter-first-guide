@@ -4,7 +4,7 @@ import 'package:todolist/todo.dart';
 import '../main.dart';
 
 class CreateScreen extends StatefulWidget {
-  const CreateScreen({Key? key}) : super(key: key);
+  const CreateScreen({super.key});
 
   @override
   State<CreateScreen> createState() => _CreateScreenState();
@@ -27,12 +27,14 @@ class _CreateScreenState extends State<CreateScreen> {
         actions: [
           IconButton(
             onPressed: () async {
-              await todos.add(Todo(
-                title: _textController.text,
-                dateTime: DateTime.now().millisecondsSinceEpoch,
-              ));
+              await todos.add(
+                Todo(
+                  title: _textController.text,
+                  dateTime: DateTime.now().millisecondsSinceEpoch,
+                ),
+              );
 
-              if (mounted) {
+              if (context.mounted) {
                 Navigator.pop(context);
               }
             },
@@ -45,13 +47,14 @@ class _CreateScreenState extends State<CreateScreen> {
         child: TextField(
           controller: _textController,
           decoration: InputDecoration(
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-              filled: true,
-              hintStyle: TextStyle(color: Colors.grey[800]),
-              hintText: "할일을 입력하세요",
-              fillColor: Colors.white70),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10.0),
+            ),
+            filled: true,
+            hintStyle: TextStyle(color: Colors.grey[800]),
+            hintText: "할일을 입력하세요",
+            fillColor: Colors.white70,
+          ),
         ),
       ),
     );

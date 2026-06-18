@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
       ),
       home: const MyGalleryApp(),
     );
@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyGalleryApp extends StatefulWidget {
-  const MyGalleryApp({Key? key}) : super(key: key);
+  const MyGalleryApp({super.key});
 
   @override
   State<MyGalleryApp> createState() => _MyGalleryAppState();
@@ -37,6 +37,7 @@ class _MyGalleryAppState extends State<MyGalleryApp> {
 
   int currentPage = 0;
   final pageController = PageController();
+  Timer? _timer;
 
   @override
   void initState() {
@@ -49,7 +50,7 @@ class _MyGalleryAppState extends State<MyGalleryApp> {
     images = await _picker.pickMultiImage();
 
     if (images != null) {
-      Timer.periodic(const Duration(seconds: 5), (timer) {
+      _timer = Timer.periodic(const Duration(seconds: 5), (timer) {
         currentPage++;
 
         if (currentPage > images!.length - 1) {
@@ -64,7 +65,15 @@ class _MyGalleryAppState extends State<MyGalleryApp> {
       });
     }
 
+    if (!mounted) return;
     setState(() {});
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    pageController.dispose();
+    super.dispose();
   }
 
   @override

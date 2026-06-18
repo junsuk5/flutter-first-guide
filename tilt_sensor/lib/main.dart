@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
       ),
       home: const SensorApp(),
     );
@@ -38,7 +38,7 @@ class SensorApp extends StatelessWidget {
       body: Stack(
         children: [
           StreamBuilder<AccelerometerEvent>(
-              stream: accelerometerEvents,
+              stream: accelerometerEventStream(),
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {
                   return const Center(
@@ -47,7 +47,6 @@ class SensorApp extends StatelessWidget {
                 }
 
                 final event = snapshot.data!;
-                List<double> accelerometerValues = [event.x, event.y, event.z];
                 return Positioned(
                   left: centerX + event.y * 20,
                   top: centerY + event.x * 20,

@@ -1,5 +1,4 @@
 import 'package:first_flutter_app/ios_style_screen.dart';
-import 'package:first_flutter_app/main_page.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -7,7 +6,7 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   // This widget is the root of your application.
   @override

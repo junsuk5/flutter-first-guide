@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class MainScreen extends StatefulWidget {
-  const MainScreen({Key? key}) : super(key: key);
+  const MainScreen({super.key});
 
   @override
   State<MainScreen> createState() => _MainScreenState();
@@ -42,7 +42,7 @@ class _MainScreenState extends State<MainScreen> {
     if (height != null && weight != null) {
       _heightController.text = '$height';
       _weightController.text = '$weight';
-      print('키 : $height, 몸무게 : $weight');
+      debugPrint('키 : $height, 몸무게 : $weight');
     }
   }
 

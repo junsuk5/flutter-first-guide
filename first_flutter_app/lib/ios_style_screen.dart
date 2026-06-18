@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
 class IosStyleScreen extends StatefulWidget {
-  const IosStyleScreen({Key? key}) : super(key: key);
+  const IosStyleScreen({super.key});
 
   @override
   State<IosStyleScreen> createState() => _IosStyleScreenState();

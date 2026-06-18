@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
       ),
       home: const GpsMapApp(),
     );
@@ -38,7 +38,7 @@ class GpsMapAppState extends State<GpsMapApp> {
   CameraPosition? _initialCameraPosition;
 
   int _polylineIdCounter = 0;
-  Set<Polyline> _polylines = {};
+  final Set<Polyline> _polylines = {};
   LatLng? _prevPosition;
 
   @override

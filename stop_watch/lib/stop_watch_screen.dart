@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 class StopWatchScreen extends StatefulWidget {
-  const StopWatchScreen({Key? key}) : super(key: key);
+  const StopWatchScreen({super.key});
 
   @override
   State<StopWatchScreen> createState() => _StopWatchScreenState();
@@ -116,7 +116,7 @@ class _StopWatchScreenState extends State<StopWatchScreen> {
                 backgroundColor: Colors.green,
                 onPressed: () {
                   setState(() {
-                    print('$sec.$hundredth');
+                    debugPrint('$sec.$hundredth');
                     _recordLapTime('$sec.$hundredth');
                   });
                 },
